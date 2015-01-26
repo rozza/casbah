@@ -15,9 +15,9 @@ object CasbahBuild extends Build {
   lazy val buildSettings = Seq(
     organization := "org.mongodb",
     organizationHomepage := Some(url("http://www.mongodb.org")),
-    version      := "2.8.2",
+    version      := "3.0.0-SNAPSHOT",
     scalaVersion := "2.10.5",
-    crossScalaVersions := Seq("2.11.7", "2.10.5", "2.9.3")
+    crossScalaVersions := Seq("2.11.7", "2.10.5")
   )
 
   val allSourceDirectories = SettingKey[Seq[Seq[File]]]("all-source-directories")
@@ -50,7 +50,6 @@ object CasbahBuild extends Build {
         }
       },
       scalacOptions <++= scalaBinaryVersion map {
-          case "2.9.3" => Seq()
           case _ => scalac210Options
       },
       allSourceDirectories <<= projects.map(sourceDirectories in Compile in _).join,
@@ -138,15 +137,13 @@ object CasbahBuild extends Build {
 
 object Dependencies {
 
-  //val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "3.0.0-SNAPSHOT"
-  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.13.2"
+  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "3.0.3"
   val slf4j            = "org.slf4j" % "slf4j-api" % "1.6.0"
   val junit            = "junit" % "junit" % "4.10" % "test"
   val slf4jJCL         = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
 
   def scalatest(scalaVersion: String) =
     (scalaVersion match {
-      case "2.9.3"   => "org.scalatest" %% "scalatest" % "1.9.1"
       case _ => "org.scalatest" %% "scalatest" % "2.1.3"
     }) % "test"
 
@@ -154,7 +151,6 @@ object Dependencies {
 
   def specs2(scalaVersion: String) =
       (scalaVersion match {
-          case "2.9.3"   => "org.specs2" %% "specs2" % "1.12.4.1"
           case _ => "org.specs2" %% "specs2" % "2.3.11"
       }) % "test"
 

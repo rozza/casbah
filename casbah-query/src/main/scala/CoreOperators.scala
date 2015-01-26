@@ -22,16 +22,13 @@
 
 package com.mongodb.casbah.query.dsl
 
+import com.mongodb.casbah.query.ChainedOperator
 import com.mongodb.casbah.query.Imports._
-
-import com.mongodb.casbah.query.{Imports, ChainedOperator}
-
-import scala.util.matching._
-import scala.collection.Iterable
-
 import org.bson._
 import org.bson.types.BasicBSONList
-import com.mongodb.casbah.commons
+
+import scala.collection.Iterable
+import scala.util.matching._
 
 // scalastyle:off method.name number.of.types
 
@@ -82,7 +79,7 @@ object QueryExpressionObject {
     val obj = new BasicDBObject with QueryExpressionObject {
       val field = kv._1
     }
-    obj.put(kv._1, kv._2)
+    obj.put(kv._1, kv._2.asInstanceOf[AnyRef])
     obj
   }
 

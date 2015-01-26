@@ -22,6 +22,8 @@
 
 package com.mongodb.casbah
 
+import java.net.UnknownHostException
+
 import scala.collection.mutable
 import scala.collection.JavaConverters._
 
@@ -156,8 +158,6 @@ object MongoConnection {
    */
   def apply(host: String, port: Int): MongoConnection = new MongoConnection(new com.mongodb.Mongo(host, port))
 
-  @deprecated("Please use [[MongoClient.getDB(String)]] instead.", "2.7")
-  def connect(addr: DBAddress): MongoDB = new MongoDB(com.mongodb.Mongo.connect(addr))
 
 }
 
@@ -199,15 +199,6 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    * @throws MongoException on error
    */
   def dropDatabase(dbName: String): Unit = underlying.dropDatabase(dbName)
-
-  @deprecated("This method will be dropped after 2.8", "2.8")
-  def version: String = getVersion
-
-  @deprecated("This method will be dropped after 2.8", "2.8")
-  def getVersion: String = underlying.getVersion
-
-  @deprecated("This method is NOT a part of public API and will be dropped in 2.8", "2.7")
-  def debugString: String = underlying.debugString
 
   def connectPoint: String = getConnectPoint
 

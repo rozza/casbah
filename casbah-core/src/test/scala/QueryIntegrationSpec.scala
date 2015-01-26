@@ -22,10 +22,9 @@
 
 package com.mongodb.casbah.test.core
 
-import scala.collection.JavaConverters._
-
-import com.mongodb.WriteConcernException
 import com.mongodb.casbah.Imports._
+
+import scala.collection.JavaConverters._
 
 
 @SuppressWarnings(Array("deprecation"))
@@ -59,13 +58,8 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
     "Work with a single pair" in {
       serverIsAtLeastVersion(2, 4) must beTrue.orSkip("Needs server >= 2.4")
       collection.drop()
-      try {
-        collection.update(MongoDBObject(), $setOnInsert("foo" -> "baz"), upsert = true)
-        collection.find(MongoDBObject("foo" -> "baz")).count must beEqualTo(1)
-      } catch {
-        case ex: WriteConcernException if ex.getCommandResult.get("err") != "Invalid modifier specified $setOnInsert" =>
-          throw ex
-      }
+      collection.update(MongoDBObject(), $setOnInsert("foo" -> "baz"), upsert = true)
+      collection.find(MongoDBObject("foo" -> "baz")).count must beEqualTo(1)
       success
     }
 
@@ -74,29 +68,17 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
       val set = $setOnInsert("foo" -> "baz", "x" -> 5.2,
         "y" -> 9, "a" ->("b", "c", "d", "e"))
       collection.drop()
-      try {
-        collection.update(MongoDBObject(), set, upsert = true)
-        collection.find(MongoDBObject("foo" -> "baz")).count must beEqualTo(1)
-      } catch {
-        case ex: WriteConcernException =>
-          if (ex.getCommandResult.get("err") != "Invalid modifier specified $setOnInsert")
-            throw ex
-      }
+      collection.update(MongoDBObject(), set, upsert = true)
+      collection.find(MongoDBObject("foo" -> "baz")).count must beEqualTo(1)
       success
     }
 
     "work combined with $set" in {
       serverIsAtLeastVersion(2, 4) must beTrue.orSkip("Needs server >= 2.4")
       collection.drop()
-      try {
-        collection.update(MongoDBObject(), $setOnInsert("x" -> 1) ++ $set("a" -> "b"), true)
-        collection.find(MongoDBObject("x" -> 1)).count must beEqualTo(1)
-        collection.find(MongoDBObject("a" -> "b")).count must beEqualTo(1)
-      } catch {
-        case ex: WriteConcernException =>
-          if (ex.getCommandResult.get("err") != "Invalid modifier specified $setOnInsert")
-            throw ex
-      }
+      collection.update(MongoDBObject(), $setOnInsert("x" -> 1) ++ $set("a" -> "b"), true)
+      collection.find(MongoDBObject("x" -> 1)).count must beEqualTo(1)
+      collection.find(MongoDBObject("a" -> "b")).count must beEqualTo(1)
       success
     }
   }
@@ -472,7 +454,7 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
       collection.getDB.getSisterDB("admin").command(enableTextCommand)
       val textIndex = MongoDBObject("a" -> "text")
       collection.drop()
-      collection.ensureIndex(textIndex)
+      collection.createIndex(textIndex)
 
       collection += MongoDBObject("_id" -> 0, "unindexedField" -> 0, "a" -> "textual content")
       collection += MongoDBObject("_id" -> 1, "unindexedField" -> 1, "a" -> "additional content")
