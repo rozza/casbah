@@ -196,12 +196,48 @@ class MongoDB(val underlying: com.mongodb.DB) {
    */
   def writeConcern: WriteConcern = getWriteConcern
 
-  /*
+  /**
+    * Sets the read concern for this database.
+    *
+    * @param readConcern the read concern to use for this collection
+    * @since 3.1
+    * @see http://docs.mongodb.org/manual/reference/readConcern/ Read Concern
+    */
+  def setReadConcern(readConcern: ReadConcern): Unit = underlying.setReadConcern(readConcern)
+
+  /**
+    * Sets the read concern for this database.
+    *
+    * @param readConcern the read concern to use for this collection
+    * @since 3.1
+    * @see http://docs.mongodb.org/manual/reference/readConcern/ Read Concern
+    */
+  def readConcern_=(readConcern: ReadConcern): Unit = underlying.setReadConcern(readConcern)
+
+  /**
+    * Get the read concern for this database.
+    *
+    * @return the [[com.mongodb.ReadConcern]]
+    * @since 3.1
+    * @see http://docs.mongodb.org/manual/reference/readConcern/ Read Concern
+    */
+  def readConcern: ReadConcern = underlying.getReadConcern
+
+  /**
+    * Get the read concern for this database.
+    *
+    * @return the [[com.mongodb.ReadConcern]]
+    * @since 3.1
+    * @see http://docs.mongodb.org/manual/reference/readConcern/ Read Concern
+    */
+  def getReadConcern: ReadConcern = underlying.getReadConcern
+
+  /**
    * Sets the read preference for this database. Will be used as default for
    * reads from any collection in this database. See the
    * documentation for [[com.mongodb.ReadPreference]] for more information.
    *
-   * @param preference Read Preference to use
+   * @param pref Read Preference to use
    */
   def readPreference_=(pref: ReadPreference): Unit = setReadPreference(pref)
 
