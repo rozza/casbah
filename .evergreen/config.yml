@@ -346,12 +346,12 @@ tasks:
         - func: "bootstrap mongo-orchestration"
         - func: "run tests"
 
-    - name: "publish-snapshot-task"
+    - name: "publish-snapshots-task"
       depends_on:
         - variant: ".tests"
           name: "test-task"
       commands:
-        - func: "publish snapshot"
+        - func: "publish snapshots"
 
 axes:
   - id: "version"
