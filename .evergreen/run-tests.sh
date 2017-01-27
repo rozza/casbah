@@ -18,12 +18,7 @@ JAVA_HOME="/opt/java/jdk8"
 #            Main Program                  #
 ############################################
 
-# Provision the correct connection string
-if [ "$TOPOLOGY" == "sharded_cluster" ]; then
-    export MONGODB_URI="mongodb://localhost:27017"
-fi
-
-echo "Running Integration tests for Scala $SCALA_VERSION for $TOPOLOGY and connecting to $MONGODB_URI"
+echo "Running tests for Scala $SCALA_VERSION for $TOPOLOGY and connecting to $MONGODB_URI"
 
 ./sbt -java-home $JAVA_HOME version
 ./sbt -java-home $JAVA_HOME ++${SCALA_VERSION} test -Dorg.mongodb.test.uri=${MONGODB_URI}
