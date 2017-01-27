@@ -349,7 +349,7 @@ tasks:
     - name: "publish-snapshot-task"
       depends_on:
         - variant: ".tests"
-          name: "test"
+          name: "test-task"
       commands:
         - func: "publish snapshot"
 
