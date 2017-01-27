@@ -266,17 +266,6 @@ functions:
         file="${PROJECT_DIRECTORY}/.evergreen/install-dependencies.sh"
         [ -f ${file} ] && sh ${file} || echo "${file} not available, skipping"
 
-
-  "publish snapshot":
-    - command: shell.exec
-      type: test
-      params:
-        silent: true
-        working_dir: "src"
-        script: |
-          # DO NOT ECHO WITH XTRACE (which PREPARE_SHELL does)
-          PROJECT_DIRECTORY=${PROJECT_DIRECTORY} NEXUS_USERNAME=${nexus_username} NEXUS_PASSWORD=${nexus_password} SIGNING_PASSWORD=${signing_password} SIGNING_KEY_ID=${signing_key_id} RING_FILE_GPG_BASE64=${ring_file_gpg_base64} .evergreen/publish.sh
-
   "run scalastyle":
     - command: shell.exec
       type: test
@@ -303,6 +292,16 @@ functions:
         script: |
           ${PREPARE_SHELL}
           SCALA_VERSION="${SCALA_VERSION}" MONGODB_URI="${MONGODB_URI}" TOPOLOGY=${TOPOLOGY} .evergreen/run-tests.sh
+
+  "publish snapshot":
+    - command: shell.exec
+      type: test
+      params:
+        silent: true
+        working_dir: "src"
+        script: |
+          # DO NOT ECHO WITH XTRACE (which PREPARE_SHELL does)
+          PROJECT_DIRECTORY=${PROJECT_DIRECTORY} NEXUS_USERNAME=${nexus_username} NEXUS_PASSWORD=${nexus_password} SIGNING_PASSWORD=${signing_password} SIGNING_KEY_ID=${signing_key_id} RING_FILE_GPG_BASE64=${ring_file_gpg_base64} .evergreen/publish.sh
 
 pre:
   - func: "fetch source"
