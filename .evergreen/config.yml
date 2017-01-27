@@ -411,7 +411,7 @@ buildvariants:
 
 - matrix_name: "tests"
   matrix_spec: { scalaVersion: "*", version: "*", topology: "*", os: "*" }
-  display_name: "${scalaVersion}:${version} ${topology} ${os}"
+  display_name: "${scalaVersion} ${version} ${topology} ${os}"
   tags: ["tests"]
   tasks:
      - name: "test-task"
