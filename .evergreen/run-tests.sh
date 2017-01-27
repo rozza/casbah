@@ -31,4 +31,4 @@ fi
 echo "Running Integration tests for Scala $SCALA_VERSION, $AUTH tests over $SSL for $TOPOLOGY and connecting to $MONGODB_URI"
 
 ./sbt -java-home $JAVA_HOME version
-./sbt -java-home $JAVA_HOME ++${SCALA_VERSION} it:test -Dorg.mongodb.test.uri=${MONGODB_URI}
+./sbt -java-home $JAVA_HOME ++${SCALA_VERSION} test -Dorg.mongodb.test.uri=${MONGODB_URI}
