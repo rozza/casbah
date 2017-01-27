@@ -8,13 +8,11 @@ set -o errexit  # Exit the script with error if any of the commands fail
 
 
 MONGODB_URI=${MONGODB_URI:-}
-
+JAVA_HOME="/opt/java/jdk8"
 
 ############################################
 #            Main Program                  #
 ############################################
-JAVA_HOME="/opt/java/jdk8"
-
 
 echo "Running coverage"
 
